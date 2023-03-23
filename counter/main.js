@@ -1,14 +1,17 @@
 import './style.css'
 
-document.querySelector('#app').innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-  <button>Count: 0</button>
-  `
+const getJokes = async () => {
+  try {
+    const res = await fetch('https://api.chucknorris.io/jokes/random')
+    const data = await res.json()
+    const myJoke = document.querySelector('#app');
+    myJoke.innerHTML = data.value;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-  let count = 0
-  const button = document.querySelector('#app button')
-  button.addEventListener('click', () => {
-    count++
-    button.textContent = `Count: ${count}`
-  })
+window.addEventListener("load", () => {
+  getJokes()
+})
+
